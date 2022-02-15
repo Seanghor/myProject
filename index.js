@@ -13,16 +13,17 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// app.use(cors({ origin: 'http://localhost:4200' }));
+var port = process.env.PORT || 8080;
 
-const PORT = process.env.PORT || 3000
-
-app.listen(PORT, () => console.log('Server started at port :http://localhost:3000'));
-
+app.listen(port, () => console.log(`Server started at port :http://localhost:${port}`));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 app.get("", (req, res) => {
     res.send("server is running")})
 
 app.use('/city', cityControllers);
 
-console.log(dbConn);
 
